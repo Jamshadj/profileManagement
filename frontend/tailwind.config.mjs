@@ -12,7 +12,9 @@ export default {
         foreground: "var(--foreground)",
         customBlack: '#1D1D1F',
         profileCardCustomWhite:"#F6F6F8",
-        viewProfileButtonColor: "#F58232"
+        viewProfileButtonColor: "#F58232",
+        lightGrayBorder: '#E8E8ED',
+        lightGrayText:"#6E6E73"
       },
       fontFamily: {
         helvetica: ['Helvetica Now Display', 'sans-serif'],
