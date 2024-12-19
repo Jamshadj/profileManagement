@@ -13,7 +13,7 @@ export default function ProfileDetailCard({ profile }) {
     const urlObj = new URL(url);
     return urlObj.searchParams.get("v") || url.split("youtu.be/")[1] || "defaultVideoId";
   };
-  
+   
   return (
     <div className="bg-white w-full overflow-hidden h-full">
       {/* Top section */}
@@ -23,7 +23,8 @@ export default function ProfileDetailCard({ profile }) {
           alt={profile.name}
           width={312}
           height={312}
-          className="rounded-full absolute left-1/2 transform -translate-x-1/2 top-[50%] -translate-y-1/2 mt-[155px]"
+          style={{ objectFit: "cover" }} 
+          className="rounded-full w-[312px] h-[312px] absolute left-1/2 transform -translate-x-1/2 top-[50%] -translate-y-1/2 mt-[155px]"
         />
       </div>
       {/* Bottom section */}
@@ -32,7 +33,7 @@ export default function ProfileDetailCard({ profile }) {
           {profile.name}
         </h2>
         <p className="text-center font-helvetica text-sm sm:text-base leading-8 mt-2">
-          {profile.gender} | {profile.age} | {profile.call}
+          {profile.gender} | {profile.age} | {profile.pronouns}
         </p>
       </div>
 
@@ -50,7 +51,7 @@ export default function ProfileDetailCard({ profile }) {
       {/* Profile Description */}
       <div className="max-w-[1242px]  h-auto mx-auto text-lightGrayText mt-[79px] text-center font-helvetica font-normal text-xl">
         <p className="mb-4 ">{profile.about}</p>
-        <p className="">{profile.professionalAbout}</p>
+        <p className="">{profile.professionalSummary}</p>
       </div>
       <div className="max-w-[1242px]  h-auto mx-auto mt-[113px]">
         <h1 className="text-5xl font-bold text-center mb-24 leading-[60px] text-customBlack font-helvetica">
