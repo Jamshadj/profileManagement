@@ -1,4 +1,4 @@
-# Job Application Tracker - MERN Project
+# Profile Management -  Project
 
 This project is a full-stack application that helps you Profile Management. It integrates both a frontend (Next js) and backend (Node.js, Express, MongoDB) to manage data and provide an interactive user interface.
 
