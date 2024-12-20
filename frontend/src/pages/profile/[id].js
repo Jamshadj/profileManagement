@@ -1,35 +1,42 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import ProfileDetailCard from "@/components/profileDetailCard";
-import api from "@/api"; // Assuming your API module is named "api"
+// pages/profile/[id].js
+import { useRouter } from 'next/router';
+import ProfileDetailCard from '@/components/profileDetailCard';
+import api from '@/api'; // Assuming your API module is named "api"
 
-export default function ProfilePage() {
+export async function getStaticPaths() {
+  try {
+    const response = await api.getProfiles(); // Fetch all profiles to get their IDs
+    const paths = response.data.map(profile => ({
+      params: { id: profile.id.toString() }, // Assuming the profile has an `id` field
+    }));
+    return {
+      paths,
+      fallback: false, // Static export, so we don't want to handle fallback
+    };
+  } catch (error) {
+    console.error('Error fetching profiles:', error);
+    return { paths: [], fallback: false };
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const { id } = params;
+  try {
+    const response = await api.getProfileById(id); // Fetch profile by ID
+    return {
+      props: { profile: response.data || {} },
+    };
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return { props: { profile: {} } };
+  }
+}
+
+export default function ProfilePage({ profile }) {
   const router = useRouter();
-  const { id } = router.query; // Get the profile ID from the URL
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    if (id) {
-      const fetchProfile = async () => {
-        try {
-          const response = await api.getProfileById(id);
-          console.log(response.data);
-          
-          if (response.success) {
-            console.log(response.data);
-            
-            setProfile(response.data)
-          }
-        } catch (error) {
-          console.error("Error fetching profile:", error);
-        }
-      };
-      fetchProfile();
-    }
-  }, [id]);
 
   const handleBackClick = () => {
-    router.push("/"); // Redirect to the homepage
+    router.push('/'); // Redirect to the homepage
   };
 
   if (!profile) {
