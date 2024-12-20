@@ -1,34 +1,20 @@
-// pages/profile/[id].js
 import { useRouter } from 'next/router';
 import ProfileDetailCard from '@/components/profileDetailCard';
 import api from '@/api'; // Assuming your API module is named "api"
 
-export async function getStaticPaths() {
-  try {
-    const response = await api.getProfiles(); // Fetch all profiles to get their IDs
-    const paths = response.data.map(profile => ({
-      params: { id: profile.id.toString() }, // Assuming the profile has an `id` field
-    }));
-    return {
-      paths,
-      fallback: false, // Static export, so we don't want to handle fallback
-    };
-  } catch (error) {
-    console.error('Error fetching profiles:', error);
-    return { paths: [], fallback: false };
-  }
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params;
   try {
-    const response = await api.getProfileById(id); // Fetch profile by ID
+    // Fetch the profile by ID from your API
+    const response = await api.getProfileById(id);
     return {
-      props: { profile: response.data || {} },
+      props: { profile: response.data || {} }, // Pass the profile data to the page
     };
   } catch (error) {
     console.error('Error fetching profile:', error);
-    return { props: { profile: {} } };
+    return {
+      props: { profile: {} }, // Return empty profile if error occurs
+    };
   }
 }
 
