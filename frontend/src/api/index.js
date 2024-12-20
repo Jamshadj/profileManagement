@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Set the base URL for all API requests
-axios.defaults.baseURL = "http://localhost:5000/api"; // Update this if your backend base URL changes
+axios.defaults.baseURL = process.env.BASEURL; 
 
 // Function to get all profiles
 const getProfiles = async () => {
