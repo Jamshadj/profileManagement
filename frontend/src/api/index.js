@@ -1,12 +1,12 @@
 import axios from "axios";
 
 // Set the base URL for all API requests
-axios.defaults.baseURL = process.env.BASEURL; 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASEURL; 
 
 // Function to get all profiles
 const getProfiles = async () => {
     try {
-      const response = await axios.get("/profiles");
+      const response = await axios.get("/profile");
       return response.data; // Extract the profile array
     } catch (error) {
       console.error("Error fetching profiles:", error);
@@ -17,7 +17,7 @@ const getProfiles = async () => {
 // Function to get profile details by ID
 const getProfileById = async (id) => {
   try {
-    const response = await axios.get(`/profiles/${id}`); // Endpoint to fetch profile by ID
+    const response = await axios.get(`/profile/${id}`); // Endpoint to fetch profile by ID
     return response.data; // Return the data from the response
   } catch (error) {
     console.error(`Error fetching profile with ID ${id}:`, error);

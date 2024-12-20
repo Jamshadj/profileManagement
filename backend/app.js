@@ -15,7 +15,7 @@ app.use(cors());
 connectDB();
 
 // Routes
-app.use("/api/profiles", profileRoutes);
+app.use("/api/profile", profileRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
