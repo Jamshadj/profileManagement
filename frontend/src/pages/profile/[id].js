@@ -1,35 +1,28 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import ProfileDetailCard from "@/components/profileDetailCard";
-import api from "@/api"; // Assuming your API module is named "api"
+import { useRouter } from 'next/router';
+import ProfileDetailCard from '@/components/profileDetailCard';
+import api from '@/api'; // Assuming your API module is named "api"
 
-export default function ProfilePage() {
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+  try {
+    // Fetch the profile by ID from your API
+    const response = await api.getProfileById(id);
+    return {
+      props: { profile: response.data || {} }, // Pass the profile data to the page
+    };
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return {
+      props: { profile: {} }, // Return empty profile if error occurs
+    };
+  }
+}
+
+export default function ProfilePage({ profile }) {
   const router = useRouter();
-  const { id } = router.query; // Get the profile ID from the URL
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    if (id) {
-      const fetchProfile = async () => {
-        try {
-          const response = await api.getProfileById(id);
-          console.log(response.data);
-          
-          if (response.success) {
-            console.log(response.data);
-            
-            setProfile(response.data)
-          }
-        } catch (error) {
-          console.error("Error fetching profile:", error);
-        }
-      };
-      fetchProfile();
-    }
-  }, [id]);
 
   const handleBackClick = () => {
-    router.push("/"); // Redirect to the homepage
+    router.push('/'); // Redirect to the homepage
   };
 
   if (!profile) {

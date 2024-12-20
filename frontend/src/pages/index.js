@@ -2,10 +2,12 @@ import Head from "next/head";
 import ProfileCard from "@/components/profileCard";
 import api from "@/api";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const profiles = await api.getProfiles();
-    return { props: { profiles: profiles.data || [] } };
+    return { 
+      props: { profiles: profiles.data || [] },
+    };
   } catch (error) {
     console.error("Failed to fetch profiles:", error);
     return { props: { profiles: [] } };
@@ -13,9 +15,10 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ profiles }) {
-  if (!profiles.length === 0) {
-    return <div>No profiles</div>; // Show loading state until the profile is fetched
+  if (profiles.length === 0) {
+    return <div>No profiles available.</div>; // Show a fallback state if no profiles are found
   }
+  
   return (
     <>
       <Head>
